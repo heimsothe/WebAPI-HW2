@@ -93,7 +93,55 @@ router.route('/testcollection')
         res.json(o);
     }
     );
-    
+
+// /movies Route
+router.route('/movies')
+      // GET method
+      // No Auth Required
+      // Returns JSON object w/ status, message, headers, query, and env.
+      .get((req, res) => {
+        const o = getJSONObjectForMovieRequirement(req);
+        o.status = 200;
+        o.message = "GET movies";
+        res.json(o);
+      })
+
+      // POST method
+      // Requires JWT auth
+      // Returns a JSON object w/ status, message, headers, query, and env.
+      .post(authJwtController.isAuthenticated, (req, res) => {
+        const o = getJSONObjectForMovieRequirement(req);
+        o.status = 200;
+        o.message = "movie saved";
+        res.json(o);
+      })
+
+      // PUT method
+      // Requires JWT auth
+      // Returns a JSON object w/ status, message, headers, query, and env.
+      .put(authJwtController.isAuthenticated, (req, res) => {
+        const o = getJSONObjectForMovieRequirement(req);
+        o.status = 200;
+        o.message = "movie updated";
+        res.json(o);
+      })
+
+      // DELETE method
+      // Requires basic auth
+      // Returns a JSON object w/ status, message, headers, query, and env.
+      .delete(authController.isAuthenticated, (req, res) => {
+        const o = getJSONObjectForMovieRequirement(req);
+        o.status = 200;
+        o.message = "movie deleted";
+        res.json(o);
+      })
+
+      // ALL OTHER methods (not supported)
+      // Returns 405 - method not allowed
+      .all((req, res) => {
+        res.status(405).send({ message: "HTTP method not supported."});
+      })
+
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
 module.exports = app; // for testing only
