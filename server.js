@@ -26,12 +26,12 @@ var router = express.Router();
 function getJSONObjectForMovieRequirement(req) {
     var json = {
         headers: "No headers",
-        key: process.env.UNIQUE_KEY,
-        body: "No body"
+        env: process.env.UNIQUE_KEY,
+        query: "No query"
     };
 
-    if (req.body != null) {
-        json.body = req.body;
+    if (req.query != null) {
+        json.query = req.query;
     }
 
     if (req.headers != null) {
