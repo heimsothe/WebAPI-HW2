@@ -40,7 +40,7 @@ describe('Test Movies Routes', () => {
         })
     });
 
-    //Test the GET route
+    //Test the POST route
     describe('post movies', () => {
         it('it should return movie saved', (done) => {
             chai.request(server)
@@ -48,14 +48,33 @@ describe('Test Movies Routes', () => {
                 .send()
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.body.should.have.property('message');
-                    res.body.message.should.eq('movie saved')
-                    done();
+                    res.body.success.should.eql(true);
+                    // Sign in to get JWT token
+                    chai.request(server)
+                        .post('/signin')
+                        .send(login_details)
+                        .end((err,res) => {
+                            res.should.have.status(200);
+                            res.body.should.have.property('token');
+
+                            let token = res.body.token;
+                            // Call POST /movies with JWT token
+                            chai.request(server)
+                                .post('/movies')
+                                .set('Authorization', token)
+                                .send()
+                                .end((err, res) => {
+                                    res.should.have.status(200);
+                                    res.body.should.have.property('message');
+                                    res.body.message.should.eq('movie saved');
+                                    done();
+                                })
+                        })
                 })
         })
     });
 
-    //Test the GET route
+    //Test the DELETE route
     describe('DELETE movies', () => {
         it('it should return movie deleted', (done) => {
             chai.request(server)
