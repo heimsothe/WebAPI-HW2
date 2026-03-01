@@ -44,8 +44,8 @@ describe('Test Movies Routes', () => {
     describe('post movies', () => {
         it('it should return movie saved', (done) => {
             chai.request(server)
-                .post('/movies')
-                .send()
+                .post('/signup')
+                .send(login_details)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.success.should.eql(true);
