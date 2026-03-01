@@ -25,7 +25,7 @@ describe('Register, Login and Call Test Collection with Basic Auth and JWT Auth'
         done();
     })
 
-    //Test the GET route
+    //Test the PUT route
     describe('/signup', () => {
         it('it should register, login and check our token', (done) => {
           chai.request(server)
@@ -48,10 +48,10 @@ describe('Register, Login and Call Test Collection with Basic Auth and JWT Auth'
                         chai.request(server)
                             .put('/testcollection')
                             .set('Authorization', token)
-                            .send({echo: ''})
+                            .query({echo: ''})
                             .end((err, res) => {
                                 res.should.have.status(200);
-                                res.body.body.should.have.property('echo');
+                                res.body.query.should.have.property('echo');
                                 done();
                             })
                     })
