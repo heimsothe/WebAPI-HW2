@@ -1,7 +1,11 @@
 /*
-CSC3916 HW2
-File: Server.js
-Description: Web API scaffolding for Movie API
+- File: server.js
+- Author: Elijah Heimsoth
+- Date: 03/01/2026
+- Assignment: WebAPI-HW2
+- Class: CSCI 3916
+
+Description: Web API scaffolding for Movie API. Added /movie route to server app.
  */
 
 var express = require('express');
