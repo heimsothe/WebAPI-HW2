@@ -3,13 +3,18 @@ var BasicStrategy = require('passport-http').BasicStrategy;
 
 passport.use(new BasicStrategy(
    function(username, password, done) {
-       var user = { name: "cu_user"}; //could have called to a database to look this up
-       if (username === user.name && password === "cu_rulez") // tripple equal is type and value; double == is just equal
+       // Look up the user in the db by username
+       // Uses findOne() because we're searching by username, not by id
+       var user = db.findOne(username);
+
+       // If user exists and the password matches, authentication succeeds
+       if (user && user.password === password)
        {
            return done(null, user);
        }
        else
        {
+           // Either user not found or password didn't match
            return done(null, false);
        }
    }
