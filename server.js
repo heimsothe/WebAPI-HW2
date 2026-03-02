@@ -31,15 +31,20 @@ function getJSONObjectForMovieRequirement(req) {
     var json = {
         headers: "No headers",
         env: process.env.UNIQUE_KEY,
-        query: "No query"
+        query: "No query",
+        body: "No body"
     };
+
+    if (req.headers != null) {
+        json.headers = req.headers;
+    }
 
     if (req.query != null) {
         json.query = req.query;
     }
 
-    if (req.headers != null) {
-        json.headers = req.headers;
+    if (req.body != null) {
+        json.body = req.body;
     }
 
     return json;
@@ -102,7 +107,7 @@ router.route('/testcollection')
 router.route('/movies')
       // GET method
       // No Auth Required
-      // Returns JSON object w/ status, message, headers, query, and env.
+      // Returns JSON object w/ status, message, headers, query, body, and env.
       .get((req, res) => {
         const o = getJSONObjectForMovieRequirement(req);
         o.status = 200;
@@ -112,7 +117,7 @@ router.route('/movies')
 
       // POST method
       // Requires JWT auth
-      // Returns a JSON object w/ status, message, headers, query, and env.
+      // Returns a JSON object w/ status, message, headers, query, body, and env.
       .post(authJwtController.isAuthenticated, (req, res) => {
         const o = getJSONObjectForMovieRequirement(req);
         o.status = 200;
@@ -122,7 +127,7 @@ router.route('/movies')
 
       // PUT method
       // Requires JWT auth
-      // Returns a JSON object w/ status, message, headers, query, and env.
+      // Returns a JSON object w/ status, message, headers, query, body, and env.
       .put(authJwtController.isAuthenticated, (req, res) => {
         const o = getJSONObjectForMovieRequirement(req);
         o.status = 200;
@@ -132,7 +137,7 @@ router.route('/movies')
 
       // DELETE method
       // Requires basic auth
-      // Returns a JSON object w/ status, message, headers, query, and env.
+      // Returns a JSON object w/ status, message, headers, query, body, and env.
       .delete(authController.isAuthenticated, (req, res) => {
         const o = getJSONObjectForMovieRequirement(req);
         o.status = 200;
